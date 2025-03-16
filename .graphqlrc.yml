@@ -1,0 +1,11 @@
+schema: http://localhost:3000/graphql
+extensions:
+  codegen:
+    generates:
+      ./src/generated-types.tsx:
+        plugins:
+          - typescript
+          - typescript-operations
+          - typescript-react-apollo
+      config:
+        withHooks: true

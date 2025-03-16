@@ -1,0 +1,8 @@
+projects:
+  quotes:
+    schema: data/schema.graphql
+    extensions:
+      endpoints:
+        local: http://localhost:3000/graphql
+        default: https://api-next.audiencekit.com/graphql
+        prod: https://api.audiencekit.com/graphql
