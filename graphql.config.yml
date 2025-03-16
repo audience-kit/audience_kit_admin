@@ -1,5 +1,5 @@
 projects:
-  quotes:
+  default:
     schema: data/schema.graphql
     extensions:
       endpoints:

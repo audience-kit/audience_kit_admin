@@ -3,36 +3,29 @@ import {
     Network,
     RecordSource,
     Store,
-    FetchFunction,
-} from "relay-runtime";
+} from 'relay-runtime';
+import { RequestParameters } from 'relay-runtime/lib/util/RelayConcreteNode';
+import { Variables } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 
-const fetchRelay: FetchFunction =
-    async (params, variables) => {
-        const response = await fetch(
-            "http://localhost:3000/graphql",
-            {
-                method: "POST",
-                headers: {
-                    "content-type":
-                        "application/json",
-                    authorization: `Bearer XYZ`,
-                },
-                body: JSON.stringify({
-                    query: params.text,
-                    variables,
-                }),
-            }
-        );
-
-        // Get the response as JSON
-        return await response.json();
-    };
-
-// Export a singleton instance of Relay Environment configured with our network function:
-export const RelayEnvironment =
-    new Environment({
-        network: Network.create(fetchRelay),
-        store: new Store(
-            new RecordSource()
-        ),
+async function fetchGraphQL(params: RequestParameters, variables: Variables) {
+    const response = await fetch(`http://localhost:3000/graphql`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query: params.text,
+            variables,
+        }),
     });
+
+    return await response.json();
+}
+
+export function createEnvironment() {
+    const RelayEnvironment = new Environment({
+        network: Network.create(fetchGraphQL),
+        store: new Store(new RecordSource()),
+    });
+    return RelayEnvironment;
+}

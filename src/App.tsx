@@ -1,9 +1,10 @@
 import * as React from 'react';
 import './App.css'
 import { graphql } from 'babel-plugin-relay/macro';
-import { loadQuery, RelayEnvironmentProvider} from "react-relay";
-import {RelayEnvironment} from "./RelayEnvironment";
+import { RelayEnvironmentProvider, useLazyLoadQuery} from "react-relay";
 import {useState} from "react";
+import {AppCurrentUserQuery} from "./__generated__/AppCurrentUserQuery.graphql";
+import FacebookLogin, {ReactFacebookFailureResponse, ReactFacebookLoginInfo} from "react-facebook-login";
 
 
 const CURRENT_USER_QUERY = graphql`
@@ -22,45 +23,35 @@ const CURRENT_USER_QUERY = graphql`
     }`;
 
 function App() {
-  const environment = RelayEnvironment;
+
     const [count, setCount] = useState(0);
 
-    const currentUserQuery = loadQuery(
-        environment,
+    let currentUserQuery=useLazyLoadQuery<AppCurrentUserQuery>(
         CURRENT_USER_QUERY,
         {}
     );
 
+
+    const responseFacebook = (response: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
+        console.log(response);
+        // Handle the response, e.g., store user data or redirect
+    }
+
     const fallback = (
        <>
-           <div>
-        <a href="https://vite.dev" target="_blank">
-            <img src="/assets/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-            <img src="/assets/react.svg" className="logo react" alt="React logo" />
-        </a>
-    </div>
-    <h1>Vite + React</h1>
-    <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-        </button>
-        <p>
-            Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-    </div>
-    <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-    </p></>);
+           <FacebookLogin             appId="842337999153841" // Replace with your actual App ID
+                                      autoLoad={true}
+                                      fields="name,email,picture"
 
-  return (
-    <RelayEnvironmentProvider environment={environment}>
-        <React.Suspense fallback={fallback}>
-            <>Username: {currentUserQuery.name}</>
-        </React.Suspense>
-    </RelayEnvironmentProvider>
-  )
+                                      callback={responseFacebook}
+                                      textButton="Login with Facebook" />
+       </>);
+
+    const result = currentUserQuery.me !== null ?
+        <p>{currentUserQuery.me?.name}</p> :
+        fallback;
+
+  return result;
 }
 
 export default App
