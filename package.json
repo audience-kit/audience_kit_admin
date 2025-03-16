@@ -2,6 +2,9 @@
   "name": "audience_kit_admin",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "babel-plugin-relay": "^18.2.0",
     "bootstrap": "^5.3.3",
