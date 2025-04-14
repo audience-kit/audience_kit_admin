@@ -3,30 +3,16 @@
   "private": true,
   "version": "1.0.0",
   "engines": {
-    "node": "22.x"
-  },
-  "dependencies": {
-    "babel-plugin-relay": "^18.2.0",
-    "bootstrap": "^5.3.3",
-    "react": "^18",
-    "react-bootstrap": "^2.10.9",
-    "react-dom": "^18",
-    "react-relay": "^18",
-    "react-router-dom": "v7.3.0",
-    "react-scripts": "5.0.1",
-    "relay-runtime": "^18"
+    "node": "20.x"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
-    "start-win": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "relay": "relay-compiler $@",
-    "lint": "eslint . --ext .ts,.tsx"
+    "dev": "bunx vite",
+    "build": "bunx --bun tsc -b && bunx --bun vite build",
+    "lint": "bunx --bun eslint .",
+    "preview": "bunx --bun vite preview"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["plugin:@typescript-eslint/strict-type-checked", "plugin:react/recommended", "plugin:react/jsx-runtime"]
   },
   "browserslist": {
     "production": [
@@ -40,27 +26,56 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@chakra-ui/react": "^3.15.1",
+    "facebook-js-sdk": "^1.0.4",
+    "react-bootstrap": "^2.10.9",
+    "react-facebook-login": "^4.1.1",
+    "react-icons": "^5.5.0",
+    "react-relay": "^18.2.0",
+    "react-router": "^7.5.0",
+    "relay-runtime": "^18.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "@babel/plugin-syntax-flow": "^7.14.5",
-    "@babel/plugin-transform-react-jsx": "^7.14.9",
-    "@types/node": "^22.13.10",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@babel/plugin-syntax-flow": "^7.26.0",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@chakra-ui/react-types": "^2.0.6",
+    "@eslint/js": "^9.24.0",
+    "@types/facebook-js-sdk": "^3.3.12",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "@types/react-facebook-login": "^4.1.11",
     "@types/react-relay": "^18.2.0",
+    "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/relay-runtime": "^18.2.5",
     "@typescript-eslint/eslint-plugin": "v8.26.1",
     "@typescript-eslint/parser": "v8.26.1",
+    "@vitejs/plugin-basic-ssl": "^2.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "babel-plugin-relay": "^18.2.0",
+    "bun": "^1.2.9",
     "eslint": "v9.22.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
     "graphql": "^16.10.0",
     "relay-compiler": "^18.2.0",
     "relay-compiler-language-typescript": "^15.0.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.1",
+    "vite": "^6.2.6",
+    "vite-plugin-relay": "^2.1.0",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "relay": {
     "src": "./src/",
-    "schema": "./data/schema.graphql",
+    "schema": "./src/graphql/schema.graphql",
     "language": "typescript"
   }
 }
