@@ -3,13 +3,16 @@ import {
     Network,
     RecordSource,
     Store,
-    FetchFunction,
 } from "relay-runtime";
+import type { FetchFunction } from "relay-runtime";
+
+const GRAPHQL_URL =
+    import.meta.env.VITE_GRAPHQL_URL ?? "http://localhost:3000/graphql";
 
 const fetchRelay: FetchFunction =
     async (params, variables) => {
         const response = await fetch(
-            "http://localhost:3000/graphql",
+            GRAPHQL_URL,
             {
                 method: "POST",
                 headers: {
