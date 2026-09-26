@@ -2,59 +2,61 @@
   "name": "audience_kit_admin",
   "private": true,
   "version": "1.0.0",
-  "dependencies": {
-    "babel-plugin-relay": "^18.2.0",
-    "bootstrap": "^5.3.3",
-    "react": "^19.0.0",
-    "react-bootstrap": "^2.10.9",
-    "react-dom": "^19.0.0",
-    "react-relay": "^18.2.0",
-    "react-router-dom": "^6.30.0",
-    "react-scripts": "5.0.1",
-    "relay-runtime": "^18.2.0"
+  "type": "module",
+  "engines": {
+    "node": ">=22"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
-    "start-win": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "relay": "relay-compiler $@",
-    "lint": "eslint . --ext .ts,.tsx"
+    "dev": "vite",
+    "start": "vite",
+    "build": "npm run relay && tsc -b && vite build",
+    "preview": "vite preview",
+    "relay": "relay-compiler",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "test": "vitest run"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@greatsumini/react-facebook-login": "^3.4.0",
+    "bootstrap": "^5.3.8",
+    "react": "^19.3.0",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.3.0",
+    "react-relay": "^21.0.1",
+    "react-router-dom": "^7.18.4",
+    "relay-runtime": "^21.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.10",
+    "@eslint/js": "^10.0.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^22.13.10",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "@types/react-relay": "^18.2.0",
-    "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
-    "graphql": "^16.10.0",
-    "relay-compiler": "^18.2.0",
-    "relay-compiler-language-typescript": "^15.0.1",
-    "typescript": "^5.8.2"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/react-relay": "^18.2.1",
+    "@types/relay-runtime": "^20.1.1",
+    "@types/relay-test-utils": "^19.0.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "babel-plugin-relay": "^21.0.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
+    "graphql": "^16.11.0",
+    "jsdom": "^30.1.1",
+    "relay-compiler": "^21.0.1",
+    "relay-test-utils": "^21.0.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.1",
+    "vite-plugin-relay": "^2.1.0",
+    "vitest": "^5.0.1"
   },
   "relay": {
-    "src": "./src/",
-    "schema": "./schema.graphql",
-    "language": "typescript"
+    "src": "./src",
+    "schema": "./data/schema.graphql",
+    "language": "typescript",
+    "eagerEsModules": true,
+    "excludes": ["**/node_modules/**", "**/__generated__/**"]
   }
 }

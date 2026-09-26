@@ -1,9 +1,10 @@
 import * as React from 'react';
 import './App.css'
-import { graphql } from 'babel-plugin-relay/macro';
-import { loadQuery, RelayEnvironmentProvider} from "react-relay";
-import {RelayEnvironment} from "./RelayEnvironment";
-import {useState} from "react";
+import { graphql, RelayEnvironmentProvider, useLazyLoadQuery } from "react-relay";
+import type { IEnvironment } from "relay-runtime";
+import { RelayEnvironment } from "./RelayEnvironment";
+import { useState } from "react";
+import type { AppCurrentUserQuery } from "./__generated__/AppCurrentUserQuery.graphql";
 
 
 const CURRENT_USER_QUERY = graphql`
@@ -21,15 +22,18 @@ const CURRENT_USER_QUERY = graphql`
         }
     }`;
 
-function App() {
-  const environment = RelayEnvironment;
-    const [count, setCount] = useState(0);
+function CurrentUser() {
+    const data = useLazyLoadQuery<AppCurrentUserQuery>(CURRENT_USER_QUERY, {});
 
-    const currentUserQuery = loadQuery(
-        environment,
-        CURRENT_USER_QUERY,
-        {}
-    );
+    return <>Username: {data.me?.name}</>;
+}
+
+interface Props {
+    environment?: IEnvironment
+}
+
+function App({ environment = RelayEnvironment }: Props) {
+    const [count, setCount] = useState(0);
 
     const fallback = (
        <>
@@ -57,7 +61,7 @@ function App() {
   return (
     <RelayEnvironmentProvider environment={environment}>
         <React.Suspense fallback={fallback}>
-            <>Username: {currentUserQuery.name}</>
+            <CurrentUser />
         </React.Suspense>
     </RelayEnvironmentProvider>
   )
